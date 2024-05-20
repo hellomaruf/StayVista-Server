@@ -80,7 +80,17 @@ async function run() {
     });
     // get all rooms data
     app.get("/rooms", async (req, res) => {
-      const result = await roomsCollection.find().toArray();
+      const category = req.query.category;
+      let query = {};
+      if (category && category !== "null") query = { category };
+      const result = await roomsCollection.find(query).toArray();
+      res.send(result);
+    });
+    
+    app.get("/room/:id", async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await roomsCollection.findOne(query);
       res.send(result);
     });
     // Send a ping to confirm a successful connection
