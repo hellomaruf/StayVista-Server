@@ -94,6 +94,14 @@ async function run() {
       res.send(result);
     });
 
+    // Get my listing data by email
+    app.get("/myListings/:email", async (req, res) => {
+      const email = req.params.email;
+      const query = { "host.email": email };
+      const result = await roomsCollection.find(query).toArray();
+      res.send(result);
+    });
+
     // added room data in database
     app.post("/room", async (req, res) => {
       const room = req.body;
