@@ -91,6 +91,20 @@ async function run() {
       const result = await usersCollection.insertOne(users);
       res.send(result);
     });
+
+    // Request for become a  host
+    app.patch("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          status: "Requested",
+        },
+      };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
     // get all rooms data
     app.get("/rooms", async (req, res) => {
       const category = req.query.category;
