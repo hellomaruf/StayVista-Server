@@ -99,6 +99,30 @@ async function run() {
       res.send(result);
     });
 
+    // update user profile
+    app.patch("/userUpdate/:email", async (req, res) => {
+      const user = req.body;
+      console.log(user);
+      const email = req.params.email;
+      console.log(email);
+      const filter = { email: email };
+      const updateDoc = {
+        $set: {
+          name: user.name,
+          photo: user.photo,
+        },
+      };
+      const result = await usersCollection.updateOne(filter, updateDoc);
+      res.send(result);
+    });
+
+    // get single users data
+    app.get("/user/:email", async (req, res) => {
+      const email = req.params.email;
+      const result = await usersCollection.findOne({ email });
+      res.send(result);
+    });
+
     // Request for become a  host
     app.patch("/user/:email", async (req, res) => {
       const email = req.params.email;
