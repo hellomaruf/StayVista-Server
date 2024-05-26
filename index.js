@@ -123,6 +123,12 @@ async function run() {
       res.send(result);
     });
 
+    // Get all users
+    app.get('/users', async (req, res) => {
+      const result = await usersCollection.find().toArray()
+      res.send(result)
+    })
+
     // Request for become a  host
     app.patch("/user/:email", async (req, res) => {
       const email = req.params.email;
